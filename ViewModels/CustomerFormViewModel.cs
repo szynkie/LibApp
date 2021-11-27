@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibApp.ViewModels
 {
-    public class NewCustomerViewModel
+    public class CustomerFormViewModel
     {
         public IEnumerable<MembershipType> MembershipTypes { get; set; }
         public Customer Customer { get; set; }
