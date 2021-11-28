@@ -16,7 +16,7 @@ namespace LibApp.Controllers
 
         public BooksController(ApplicationDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public IActionResult Index()
@@ -42,34 +42,65 @@ namespace LibApp.Controllers
             return View(book);
         }
 
-        public IActionResult Random()
+        public IActionResult Edit(int id)
         {
-            var firstBook = new Book() { Name = "English dictionary" };
-
-            var customers = new List<Customer>
+            var book = _context.Books.SingleOrDefault(b => b.Id == id);
+            if (book == null)
             {
-                new Customer {Name = "Customer 1"},
-                new Customer {Name = "Customer 2"}
+                return NotFound();
+            }
+
+            var viewModel = new BookFormViewModel
+            {
+                Book = book,
+                Genres = _context.Genre.ToList()
             };
 
-            var viewModel = new RandomBookViewModel
-            {
-                Book = firstBook,
-                Customers = customers
-            };
-            
-            return View(viewModel);
+            return View("BookForm", viewModel);
         }
 
-        public IActionResult Edit(int bookId)
+        public IActionResult New()
         {
-            return Content("id=" + bookId);
+            var viewModel = new BookFormViewModel
+            {
+                Genres = _context.Genre.ToList()
+            };
+
+            return View("BookForm", viewModel);
         }
-        
-        [Route("books/released/{year:regex(^\\d{{4}}$)}/{month:range(1, 12)}")]
-        public IActionResult ByReleaseDate(int year, int month)
+
+        [HttpPost]
+        public IActionResult Save(Book book)
         {
-            return Content(year + "/" + month);
+            if (book.Id == 0)
+            {
+                book.DateAdded = DateTime.Now;
+                _context.Books.Add(book);
+            }
+            else
+            {
+                var bookInDb = _context.Books.Single(c => c.Id == book.Id);
+                bookInDb.Name = book.Name;
+                bookInDb.AuthorName = book.AuthorName;
+                bookInDb.GenreId= book.GenreId;
+                bookInDb.NumberInStock = book.NumberInStock;
+                bookInDb.ReleaseDate = book.ReleaseDate;
+                bookInDb.DateAdded = book.DateAdded;
+            }
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return RedirectToAction("Index", "Books");
         }
+
+
+
     }
 }
