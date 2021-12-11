@@ -1,4 +1,6 @@
-﻿using LibApp.Data;
+﻿using AutoMapper;
+using LibApp.Data;
+using LibApp.Dtos;
 using LibApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,21 +22,22 @@ namespace LibApp.Controllers.Api
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET /api/customers
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         // GET /api/customers/{id}
         [HttpGet("{id}")]
-        public Customer GetCustomer(int id)
+        public CustomerDto GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
@@ -42,44 +45,42 @@ namespace LibApp.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            return customer;
+            return _mapper.Map<CustomerDto>(customer);
         }
 
         // POST /api/customers
         [HttpPost]
-        public Customer CreateCustomer(Customer customer)
+        public CustomerDto CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            var customer = _mapper.Map<Customer>(customerDto);
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+            return customerDto;
         }
 
         // PUT /api/customers/{id}
         [HttpPut("{id}")]
-        public void UpdateCustomer(int id, Customer customer)
+        public void UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+            var customerInDb = _context.Customers.Single(c => c.Id == customerDto.Id);
             if (customerInDb == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
-            customerInDb.HasNewsletterSubscribed = customer.HasNewsletterSubscribed;
-
+            _mapper.Map(customerDto, customerInDb);
             _context.SaveChanges();
         }
 
@@ -98,5 +99,6 @@ namespace LibApp.Controllers.Api
         }
 
         private ApplicationDbContext _context;
+        private readonly IMapper _mapper;
     }
 }
