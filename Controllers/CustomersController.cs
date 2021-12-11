@@ -46,9 +46,8 @@ namespace LibApp.Controllers
         {
             var membershipTypes = _context.MembershipTypes.ToList();
 
-            var viewModel = new CustomerFormViewModel
+            var viewModel = new CustomerFormViewModel()
             {
-                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
 
@@ -64,9 +63,8 @@ namespace LibApp.Controllers
                 return NotFound();
             }
 
-            var viewModel = new CustomerFormViewModel
+            var viewModel = new CustomerFormViewModel(customer)
             {
-                Customer = customer,
                 MembershipTypes = _context.MembershipTypes.ToList()
             };
 
@@ -79,9 +77,8 @@ namespace LibApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new CustomerFormViewModel
+                var viewModel = new CustomerFormViewModel(customer)
                 {
-                    Customer = customer,
                     MembershipTypes = _context.MembershipTypes.ToList()
                 };
 
