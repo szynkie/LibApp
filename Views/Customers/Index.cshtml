@@ -17,11 +17,12 @@
 }
 else
 {
-    <table class="table table-hover">
+    <table id="customers" class="table table-hover">
         <thead>
         <tr>
             <th>Customer</th>
-            <th colspan="2">Discount Rate</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -30,9 +31,32 @@ else
             <tr>
                 <td><a asp-action="Edit" asp-route-id="@customer.Id">@Html.DisplayFor(modelItem => customer.Name)</a></td>
                 <td>@customer.MembershipType.Name</td>
-                <td><a asp-action="Details" asp-route-id="@customer.Id">Details</a></td>
+                <td>
+                    <button class="btn btn-secondary js-delete" data-customer-id=@customer.Id>Delete</button>
+                </td>
             </tr>
         }
         </tbody>
     </table>
+}
+
+@section Scripts  
+{
+    <script>
+        $(document).ready(function () {
+            $("#customers .js-delete").on("click", function () {
+                var button = $(this)
+                console.log("ID: " + button.attr("data-customer-id"));
+                if (confirm("Confirm customer deletion?")) {
+                    $.ajax({
+                        url: "/api/customers/" + button.attr("data-customer-id"),
+                        method: "DELETE",
+                        success: function () {
+                            button.parents("tr").remove();
+                        }
+                    })
+                }
+            });
+        });
+    </script>
 }
