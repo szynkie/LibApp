@@ -15,6 +15,32 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\jquery.dataTables.js" Condition="Exists('$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\jquery.dataTables.js')">
+      <NuGetPackageId>datatables.net</NuGetPackageId>
+      <NuGetPackageVersion>1.11.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\jquery.dataTables.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\jquery.dataTables.min.js" Condition="Exists('$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\jquery.dataTables.min.js')">
+      <NuGetPackageId>datatables.net</NuGetPackageId>
+      <NuGetPackageVersion>1.11.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\jquery.dataTables.min.js</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\types.d.ts" Condition="Exists('$(NuGetPackageRoot)datatables.net\1.11.3\contentFiles\any\any\wwwroot\js\types.d.ts')">
+      <NuGetPackageId>datatables.net</NuGetPackageId>
+      <NuGetPackageVersion>1.11.3</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Pack>false</Pack>
+      <Private>False</Private>
+      <Link>wwwroot\js\types.d.ts</Link>
+    </Content>
+  </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\5.0.9\build\netcoreapp3.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\5.0.9\build\netcoreapp3.0\Microsoft.EntityFrameworkCore.Design.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.9\buildTransitive\Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.9\buildTransitive\Microsoft.AspNetCore.Identity.UI.props')" />
@@ -23,5 +49,6 @@
     <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Users\Marcin\.nuget\packages\newtonsoft.json\10.0.1</PkgNewtonsoft_Json>
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Marcin\.nuget\packages\microsoft.entityframeworkcore.tools\5.0.9</PkgMicrosoft_EntityFrameworkCore_Tools>
     <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Marcin\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgjQuery Condition=" '$(PkgjQuery)' == '' ">C:\Users\Marcin\.nuget\packages\jquery\1.12.4</PkgjQuery>
   </PropertyGroup>
 </Project>

@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "Bootbox.JS": {
+              "target": "Package",
+              "version": "[5.5.2, )"
+            },
             "Microsoft.AspNet.WebApi.Core": {
               "target": "Package",
               "version": "[5.2.7, )"
@@ -71,6 +75,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[5.0.9, )"
+            },
+            "datatables.net": {
+              "target": "Package",
+              "version": "[1.11.3, )"
             }
           },
           "imports": [
