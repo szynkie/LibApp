@@ -13,31 +13,15 @@ namespace LibApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IMemoryCache _memoryCache;
 
-        public HomeController(ILogger<HomeController> logger, IMemoryCache memoryCache)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _memoryCache = memoryCache;
         }
 
         public IActionResult Index()
         {
-            DateTime currentTime;
-            bool existsInCache = _memoryCache.TryGetValue("CachedTime", out currentTime);
-            if (!existsInCache)
-            {
-                currentTime = DateTime.Now;
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
-                {
-                    AbsoluteExpiration = DateTime.Now.AddSeconds(5),
-                    Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromSeconds(5)
-                };
-                _memoryCache.Set("CachedTime", currentTime, cacheEntryOptions);
-            }
-
-            return View(currentTime);
+            return View();
         }
 
         public IActionResult Privacy()
