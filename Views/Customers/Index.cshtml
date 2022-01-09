@@ -57,6 +57,7 @@
 
     <script>
         $(document).ready(function () {
+            var table = $("#customers").DataTable();
             $("#customers").on("click", ".js-delete", function () {
                 var button = $(this);
                 bootbox.confirm({
@@ -77,7 +78,7 @@
                                 url: '/api/customers/' + button.attr("data-customer-id"),
                                 method: "DELETE",
                                 success: function () {
-                                    button.parents("tr").remove();
+                                    table.row(button.parents("tr")).remove().draw();
                                 }
                             });
                         }
