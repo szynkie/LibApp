@@ -46,15 +46,30 @@ else
         $(document).ready(function () {
             $("#customers .js-delete").on("click", function () {
                 var button = $(this);
-                if (confirm("Confirm customer deletion?")) {
-                    $.ajax({
-                        url: '/api/customers/' + button.attr("data-customer-id"),
-                        method: "DELETE",
-                        success: function () {
-                            button.parents("tr").remove();
+                bootbox.confirm({
+                    message: "Confirm customer deletion?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
                         }
-                    });
-                }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/api/customers/' + button.attr("data-customer-id"),
+                                method: "DELETE",
+                                success: function () {
+                                    button.parents("tr").remove();
+                                }
+                            });
+                        }
+                    }
+                });
             });
         });
     </script>
