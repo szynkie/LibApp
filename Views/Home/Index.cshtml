@@ -1,8 +1,13 @@
-﻿@{
+﻿@model DateTime?
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    <h3 class="display-4">Current time: @DateTime.Now</h3>
+    <h3 class="display-4">Cached time (C#): @Model.Value.ToString()</h3>
+    <cache><h3 class="display-4">Cached time (HTML): @DateTime.Now</h3></cache>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
