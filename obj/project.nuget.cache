@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DKpMisVaAdmaZnL5Amg6xbK3e6x80qj7Mlf/+pwmu6U0TYZMVfMjpUxSK5kjvzJ/Cr9gA8zdI8JidNKAwjBdRg==",
+  "dgSpecHash": "8i2ZUNJwB6EqYkj7qU6dI7//pims/Yh7BjdFypIROET1P8eBDMFkYVtB5O0odtOecieQj5IPHkxKChB+MoijFA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Marcin\\Desktop\\GIT\\LibApp_Gr5\\LibApp\\LibApp.csproj",
   "expectedPackageFiles": [
@@ -161,6 +161,7 @@
     "C:\\Users\\Marcin\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Marcin\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Marcin\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\Marcin\\.nuget\\packages\\toastr\\2.1.1\\toastr.2.1.1.nupkg.sha512",
     "C:\\Users\\Marcin\\.nuget\\packages\\twitter.typeahead\\0.11.1\\twitter.typeahead.0.11.1.nupkg.sha512",
     "C:\\Users\\Marcin\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
   ],
