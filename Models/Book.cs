@@ -24,6 +24,7 @@ namespace LibApp.Models
 		public DateTime ReleaseDate { get; set; }
 		[Display(Name = "Number in Stock")]
 		public int NumberInStock { get; set; }
+		public int NumberAvailable { get; set; }
 	}
       
 }
