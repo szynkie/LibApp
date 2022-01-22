@@ -42,15 +42,20 @@ namespace LibApp.Controllers.Api
 
         // GET /api/customers/{id}
         [HttpGet("{id}")]
-        public CustomerDto GetCustomer(int id)
+        public async Task<IActionResult> GetCustomer(int id)
         {
-            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            Console.WriteLine("Request beginning");
+
+            var customer = await _context.Customers.SingleOrDefaultAsync(c => c.Id == id);
+            await Task.Delay(2000);
             if (customer == null)
             {
                 throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
             }
 
-            return _mapper.Map<CustomerDto>(customer);
+            Console.WriteLine("Request end");
+
+            return Ok(_mapper.Map<CustomerDto>(customer));
         }
 
         // POST /api/customers/
