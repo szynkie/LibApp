@@ -21,7 +21,7 @@ namespace LibApp.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult CreateNewRental(NewRentalDto newRental)
+        public IActionResult CreateNewRental([FromBody] NewRentalDto newRental)
         {
             var customer = _context.Customers
                 .Include(c => c.MembershipType)
