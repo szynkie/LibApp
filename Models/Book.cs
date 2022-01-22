@@ -20,6 +20,7 @@ namespace LibApp.Models
 		public DateTime DateAdded { get; set; }
 		public DateTime ReleaseDate { get; set; }
 		public int NumberInStock { get; set; }
+		public int NumberAvailable { get; set; }
 	}
       
 }
