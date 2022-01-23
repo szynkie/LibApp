@@ -89,10 +89,17 @@
                     dataType: "html",
                     data: postData,
                     success: function () {
-
+                        toastr.success("Added a new rental");
+                        $("#customer").typeahead("val", "");
+                        $("#book").typeahead("val", "");
+                        $("#books").empty();
+                        formData = {
+                            customerId: 0,
+                            bookIds: []
+                        };
                     },
                     fail: function () {
-
+                        toastr.error("Rental failed");
                     }
                 })
             });
