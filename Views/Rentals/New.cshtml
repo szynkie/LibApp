@@ -5,7 +5,7 @@
 
 <h2>New Rental</h2>
 
-<form>
+<form id="newRental">
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
@@ -77,6 +77,25 @@
                     $('#book').typeahead("val", "");
                     $("#books").append("<li class='list-group-item'>" + book.name + "</li>");
                 });
+
+            $("#newRental").submit(function (e) {
+                e.preventDefault();
+                var postData = JSON.stringify(formData);
+
+                $.ajax({
+                    url: "/api/newRentals/",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "html",
+                    data: postData,
+                    success: function () {
+
+                    },
+                    fail: function () {
+
+                    }
+                })
+            });
         });
     </script>
 }
