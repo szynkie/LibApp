@@ -26,7 +26,7 @@ namespace LibApp.Controllers
 
         public IActionResult Details(int id)
         {
-            var customer = _customersRepo.GetCustomerById(id);
+            var customer = _customersRepo.GetById(id);
 
             if (customer == null)
             {
@@ -38,7 +38,7 @@ namespace LibApp.Controllers
 
         public IActionResult New()
         {
-            var membershipTypes = _MtSRepo.GetMsTs();
+            var membershipTypes = _MtSRepo.Get();
             var viewModel = new CustomerFormViewModel()
             {
                 MembershipTypes = membershipTypes
@@ -49,7 +49,7 @@ namespace LibApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            var customer = _customersRepo.GetCustomerById(id);
+            var customer = _customersRepo.GetById(id);
             if (customer == null)
             {
                 return NotFound();
@@ -57,7 +57,7 @@ namespace LibApp.Controllers
 
             var viewModel = new CustomerFormViewModel(customer)
             {
-                MembershipTypes = _MtSRepo.GetMsTs().ToList()
+                MembershipTypes = _MtSRepo.Get().ToList()
             };
 
             return View("CustomerForm", viewModel);
@@ -71,7 +71,7 @@ namespace LibApp.Controllers
             {
                 var viewModel = new CustomerFormViewModel(customer)
                 {
-                    MembershipTypes = _MtSRepo.GetMsTs().ToList()
+                    MembershipTypes = _MtSRepo.Get().ToList()
                 };
 
                 return View("CustomerForm", viewModel);
@@ -83,7 +83,7 @@ namespace LibApp.Controllers
             }
             else
             {
-                var customerInDb = _customersRepo.GetCustomerById(customer.Id);
+                var customerInDb = _customersRepo.GetById(customer.Id);
                 customerInDb.Name = customer.Name;
                 customerInDb.Birthdate = customer.Birthdate;
                 customerInDb.MembershipTypeId = customer.MembershipTypeId;

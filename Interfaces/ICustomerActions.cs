@@ -6,12 +6,20 @@ namespace LibApp.Interfaces
 {
     public interface ICustomerActions
     {
-        IEnumerable<Customer> GetCustomers();
-        Customer GetCustomerById(int id);
-        Task<Customer> GetCustomerByIdAsync(int id);
+        //Methods
+        IEnumerable<Customer> Get();
+        Customer GetById(int id);
         void Delete(int id);
         void Add(Customer customer);
         void Update(Customer customer);
         void Save();
+
+        //AsyncedMethods
+        Task<IEnumerable<Customer>> GetAsync();
+        Task<Customer> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
+        Task AddAsync(Customer customer);
+        Task UpdateAsync(Customer customer);
+        Task SaveAsync();
     }
 }

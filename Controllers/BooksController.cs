@@ -24,14 +24,14 @@ namespace LibApp.Controllers
 
         public IActionResult Index()
         {
-            var books = _bookRep.GetBooks().ToList();
+            var books = _bookRep.Get().ToList();
 
             return View(books);
         }
 
         public IActionResult Details(int id)
         {
-            var book = _bookRep.GetBookById(id);
+            var book = _bookRep.GetById(id);
 
 
             return View(book);
@@ -39,7 +39,7 @@ namespace LibApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            var book = _bookRep.GetBookById(id);
+            var book = _bookRep.GetById(id);
             if (book == null)
             {
                 return NotFound();
@@ -48,7 +48,7 @@ namespace LibApp.Controllers
             var viewModel = new BookFormViewModel
             {
                 Book = book,
-                Genres = _genresRep.GetGenres().ToList()
+                Genres = _genresRep.Get().ToList()
             };
 
             return View("BookForm", viewModel);
@@ -56,7 +56,7 @@ namespace LibApp.Controllers
 
         public IActionResult New()
         {
-            var genres = _genresRep.GetGenres().ToList();
+            var genres = _genresRep.Get().ToList();
 
             var viewModel = new BookFormViewModel
             {
@@ -76,7 +76,7 @@ namespace LibApp.Controllers
             }
             else
             {
-                var bookInDb = _bookRep.GetBookById(book.Id);
+                var bookInDb = _bookRep.GetById(book.Id);
                 bookInDb.Name = book.Name;
                 bookInDb.AuthorName = book.AuthorName;
                 bookInDb.GenreId = book.GenreId;

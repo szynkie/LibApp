@@ -12,22 +12,22 @@ namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController : ControllerBase
+    public class RentalController : ControllerBase
     {
-        private readonly BookRepository _bookRep;
+        private readonly RentalRepository _rentalsRep;
 
-        public BooksController(ApplicationDbContext context)
+        public RentalController(ApplicationDbContext context)
         {
-            _bookRep = new BookRepository(context);
+            _rentalsRep = new RentalRepository(context);
         }
 
-        // GET api/books/
+        // GET api/Rentals/
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<Rental>>> GetRentals()
         {
             try
             {
-                return (await _bookRep.GetAsync()).ToList();
+                return (await _rentalsRep.GetAsync()).ToList();
             }
             catch (Exception)
             {
@@ -36,13 +36,13 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // GET api/books/{id}
+        // GET api/Rentals/{id}
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Book>> GetBookById(int id)
+        public async Task<ActionResult<Rental>> GetRentalById(int id)
         {
             try
             {
-                var result = await _bookRep.GetByIdAsync(id);
+                var result = await _rentalsRep.GetByIdAsync(id);
                 if (result == null) return NotFound();
 
                 return result;
@@ -54,18 +54,18 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // Delete api/books/{id}
+        // Delete api/Rentals/{id}
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var bookToDelete = await _bookRep.GetByIdAsync(id);
+                var RentalToDelete = await _rentalsRep.GetByIdAsync(id);
 
-                if (bookToDelete == null)
-                    return NotFound($"Book with Id = {id} not found");
+                if (RentalToDelete == null)
+                    return NotFound($"Rental with Id = {id} not found");
 
-                await _bookRep.DeleteAsync(id);
+                await _rentalsRep.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception)
@@ -75,16 +75,16 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // Post api/books/
+        // Post api/Rentals/
         [HttpPost]
-        public async Task<ActionResult> Add(Book book)
+        public async Task<ActionResult> Add(Rental Rental)
         {
             try
             {
-                if (book == null)
+                if (Rental == null)
                     return BadRequest();
 
-                await _bookRep.AddAsync(book);
+                await _rentalsRep.AddAsync(Rental);
 
                 return Ok();
             }
@@ -95,21 +95,21 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // Put api/books/{id}
+        // Put api/Rentals/{id}
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Update(int id, Book book)
+        public async Task<ActionResult> Update(int id, Rental Rental)
         {
             try
             {
-                if (id != book.Id)
-                    return BadRequest("Book ID mismatch");
+                if (id != Rental.Id)
+                    return BadRequest("Rental ID mismatch");
 
-                var bookToUpdate = await _bookRep.GetByIdAsync(id);
+                var RentalToUpdate = await _rentalsRep.GetByIdAsync(id);
 
-                if (bookToUpdate == null)
-                    return NotFound($"Book with Id = {id} not found");
+                if (RentalToUpdate == null)
+                    return NotFound($"Rental with Id = {id} not found");
 
-                await _bookRep.UpdateAsync(book);
+                await _rentalsRep.UpdateAsync(Rental);
                 return Ok();
             }
             catch (Exception)
