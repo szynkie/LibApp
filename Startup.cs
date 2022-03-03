@@ -1,4 +1,6 @@
 using LibApp.Data;
+using LibApp.Respositories;
+using LibApp.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +38,7 @@ namespace LibApp
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped<IBookActions, BookRepository>();
             services.AddControllersWithViews();
         }
 
