@@ -13,3 +13,10 @@
         <li>Birthdate: @Model.Birthdate.Value.ToShortDateString()</li>
     }
 </ul>
+
+@* @if (this.User.IsInRole("Owner"))
+    { *@
+<p>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+</p>
+@* } *@

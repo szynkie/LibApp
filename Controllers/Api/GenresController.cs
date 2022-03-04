@@ -14,13 +14,13 @@ namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GenreController : ControllerBase
+    public class GenresController : ControllerBase
     {
         private readonly GenresRepository _genresRep;
 
         private IMapper _mapper { get; }
 
-        public GenreController(ApplicationDbContext context, IMapper mapper)
+        public GenresController(ApplicationDbContext context, IMapper mapper)
         {
             _genresRep = new GenresRepository(context);
             _mapper = mapper;

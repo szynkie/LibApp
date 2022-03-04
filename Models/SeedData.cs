@@ -165,21 +165,18 @@ namespace LibApp.Models
                 {
                     foreach (Customer cust in CustomersToAdd)
                     {
-                        RentalsToAdd.Add(
-                            new Rental
-                            {
-                                Book = book,
-                                Customer = cust,
-                                DateRented = DateTime.Now.AddDays(book.GenreId + cust.MembershipTypeId)
-                            }
-                        );
+                        var rental = new Rental
+                        {
+                            Book = book,
+                            Customer = cust,
+                            DateRented = DateTime.Now.AddDays(book.GenreId + cust.MembershipTypeId)
+                        };
+                        RentalsToAdd.Add(rental);
                     }
                 }
 
-                foreach (Rental rental in RentalsToAdd)
-                {
-                    context.Rentals.AddRange(rental);
-                }
+                context.Rentals.AddRange(RentalsToAdd.ToArray());
+
 
 
                 /* Update data in context */
