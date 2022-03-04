@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using LibApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,8 +81,8 @@ namespace LibApp.Models
                     },
                     new Book
                     {
-                        Name = "Book 1",
-                        AuthorName = "Author 1",
+                        Name = "Book 2",
+                        AuthorName = "Author 2",
                         GenreId = 2,
                         DateAdded = DateTime.Now.AddDays(-1),
                         ReleaseDate = DateTime.Now.AddDays(-3),
@@ -90,8 +91,8 @@ namespace LibApp.Models
                     },
                     new Book
                     {
-                        Name = "Book 1",
-                        AuthorName = "Author 1",
+                        Name = "Book 3",
+                        AuthorName = "Author 3",
                         GenreId = 3,
                         DateAdded = DateTime.Now.AddDays(-1),
                         ReleaseDate = DateTime.Now.AddDays(-3),
@@ -100,8 +101,8 @@ namespace LibApp.Models
                     },
                     new Book
                     {
-                        Name = "Book 1",
-                        AuthorName = "Author 1",
+                        Name = "Book 4",
+                        AuthorName = "Author 4",
                         GenreId = 4,
                         DateAdded = DateTime.Now.AddDays(-1),
                         ReleaseDate = DateTime.Now.AddDays(-3),
@@ -129,21 +130,21 @@ namespace LibApp.Models
                     },
                     new Customer
                     {
-                           Name = "Customer 1",
+                           Name = "Customer 2",
                            HasNewsletterSubscribed = true,
                            MembershipTypeId = 2,
                            Birthdate = DateTime.Now.AddYears(-10),
                     },
                     new Customer
                     {
-                           Name = "Customer 1",
+                           Name = "Customer 3",
                            HasNewsletterSubscribed = true,
                            MembershipTypeId = 3,
                            Birthdate = DateTime.Now.AddYears(-10),
                     },
                     new Customer
                     {
-                           Name = "Customer 1",
+                           Name = "Customer 4",
                            HasNewsletterSubscribed = true,
                            MembershipTypeId = 4,
                            Birthdate = DateTime.Now.AddYears(-10),
