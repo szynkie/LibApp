@@ -8,11 +8,11 @@ using LibApp.Interfaces;
 
 namespace LibApp.Respositories
 {
-    public class GenreRepository : IGenreActions
+    public class GenresRepository : IGenreActions
     {
         private readonly ApplicationDbContext _context;
 
-        public GenreRepository(ApplicationDbContext context)
+        public GenresRepository(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -21,15 +21,15 @@ namespace LibApp.Respositories
         public IEnumerable<Genre> Get() => _context.Genre;
         public Genre GetById(int id) => _context.Genre.Find(id);
         public void Add(Genre genre) => _context.Genre.Add(genre);
-        public void Delete(int id) => _context.Genre.Remove(GetById(id));
+        public void Delete(Genre genre) => _context.Genre.Remove(genre);
         public void Update(Genre genre) => _context.Genre.Update(genre);
         public void Save() => _context.SaveChanges();
 
         public async Task<IEnumerable<Genre>> GetAsync() => await _context.Genre.ToListAsync();
         public async Task<Genre> GetByIdAsync(int id) => await _context.Genre.SingleOrDefaultAsync(g => g.Id == id);
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Genre genre)
         {
-            _context.Genre.Remove(GetById(id));
+            _context.Genre.Remove(genre);
             await SaveAsync();
         }
 

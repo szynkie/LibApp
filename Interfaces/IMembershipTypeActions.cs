@@ -10,7 +10,7 @@ namespace LibApp.Interfaces
         //Methods
         IEnumerable<MembershipType> Get();
         MembershipType GetById(int id);
-        void Delete(int id);
+        void Delete(MembershipType MsT);
         void Add(MembershipType MsT);
         void Update(MembershipType MsT);
         void Save();
@@ -18,7 +18,7 @@ namespace LibApp.Interfaces
         //AsyncedMethods
         Task<IEnumerable<MembershipType>> GetAsync();
         Task<MembershipType> GetByIdAsync(int id);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(MembershipType MsT);
         Task AddAsync(MembershipType MsT);
         Task UpdateAsync(MembershipType MsT);
         Task SaveAsync();

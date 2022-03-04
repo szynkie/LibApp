@@ -1,6 +1,8 @@
 ﻿using LibApp.Data;
 using LibApp.Models;
+using LibApp.Dtos;
 using LibApp.Respositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -14,11 +16,14 @@ namespace LibApp.Controllers.Api
     [ApiController]
     public class GenreController : ControllerBase
     {
-        private readonly GenreRepository _genresRep;
+        private readonly GenresRepository _genresRep;
 
-        public GenreController(ApplicationDbContext context)
+        private IMapper _mapper { get; }
+
+        public GenreController(ApplicationDbContext context, IMapper mapper)
         {
-            _genresRep = new GenreRepository(context);
+            _genresRep = new GenresRepository(context);
+            _mapper = mapper;
         }
 
         // GET api/Genres/
@@ -27,7 +32,11 @@ namespace LibApp.Controllers.Api
         {
             try
             {
-                return (await _genresRep.GetAsync()).ToList();
+                var genres = (await _genresRep.GetAsync())
+                .ToList()
+                .Select(_mapper.Map<Genre, GenreDto>);
+
+                return Ok(genres);
             }
             catch (Exception)
             {
@@ -45,7 +54,7 @@ namespace LibApp.Controllers.Api
                 var result = await _genresRep.GetByIdAsync(id);
                 if (result == null) return NotFound();
 
-                return result;
+                return Ok(_mapper.Map<Genre, GenreDto>(result));
             }
             catch (Exception)
             {
@@ -65,7 +74,7 @@ namespace LibApp.Controllers.Api
                 if (GenreToDelete == null)
                     return NotFound($"Genre with Id = {id} not found");
 
-                await _genresRep.DeleteAsync(id);
+                await _genresRep.DeleteAsync(GenreToDelete);
                 return Ok();
             }
             catch (Exception)
@@ -77,14 +86,14 @@ namespace LibApp.Controllers.Api
 
         // Post api/Genres/
         [HttpPost]
-        public async Task<ActionResult> Add(Genre Genre)
+        public async Task<ActionResult> Add(GenreDto genre)
         {
             try
             {
-                if (Genre == null)
+                if (genre == null)
                     return BadRequest();
 
-                await _genresRep.AddAsync(Genre);
+                await _genresRep.AddAsync(_mapper.Map<GenreDto, Genre>(genre));
 
                 return Ok();
             }
@@ -97,11 +106,11 @@ namespace LibApp.Controllers.Api
 
         // Put api/Genres/{id}
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Update(int id, Genre Genre)
+        public async Task<ActionResult> Update(int id, GenreDto genre)
         {
             try
             {
-                if (id != Genre.Id)
+                if (id != genre.Id)
                     return BadRequest("Genre ID mismatch");
 
                 var GenreToUpdate = await _genresRep.GetByIdAsync(id);
@@ -109,7 +118,7 @@ namespace LibApp.Controllers.Api
                 if (GenreToUpdate == null)
                     return NotFound($"Genre with Id = {id} not found");
 
-                await _genresRep.UpdateAsync(Genre);
+                await _genresRep.UpdateAsync(_mapper.Map<GenreDto, Genre>(genre));
                 return Ok();
             }
             catch (Exception)

@@ -1,6 +1,8 @@
 ﻿using LibApp.Data;
 using LibApp.Models;
+using LibApp.Dtos;
 using LibApp.Respositories;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -12,13 +14,16 @@ namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly CustomersRepository _customersRep;
 
-        public CustomerController(ApplicationDbContext context)
+        private IMapper _mapper { get; }
+
+        public CustomersController(ApplicationDbContext context, IMapper mapper)
         {
             _customersRep = new CustomersRepository(context);
+            _mapper = mapper;
         }
 
         // GET api/Customers/
@@ -27,7 +32,11 @@ namespace LibApp.Controllers.Api
         {
             try
             {
-                return (await _customersRep.GetAsync()).ToList();
+                var customers = (await _customersRep.GetAsync())
+                .ToList()
+                .Select(_mapper.Map<Customer, CustomerDto>);
+
+                return Ok(customers);
             }
             catch (Exception)
             {
@@ -45,7 +54,7 @@ namespace LibApp.Controllers.Api
                 var result = await _customersRep.GetByIdAsync(id);
                 if (result == null) return NotFound();
 
-                return result;
+                return Ok(_mapper.Map<Customer, CustomerDto>(result));
             }
             catch (Exception)
             {
@@ -65,7 +74,7 @@ namespace LibApp.Controllers.Api
                 if (CustomerToDelete == null)
                     return NotFound($"Customer with Id = {id} not found");
 
-                await _customersRep.DeleteAsync(id);
+                await _customersRep.DeleteAsync(CustomerToDelete);
                 return Ok();
             }
             catch (Exception)
@@ -77,14 +86,14 @@ namespace LibApp.Controllers.Api
 
         // Post api/Customers/
         [HttpPost]
-        public async Task<ActionResult> Add(Customer Customer)
+        public async Task<ActionResult> Add(CustomerDto customer)
         {
             try
             {
-                if (Customer == null)
+                if (customer == null)
                     return BadRequest();
 
-                await _customersRep.AddAsync(Customer);
+                await _customersRep.AddAsync(_mapper.Map<CustomerDto, Customer>(customer));
 
                 return Ok();
             }
@@ -97,11 +106,11 @@ namespace LibApp.Controllers.Api
 
         // Put api/Customers/{id}
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Update(int id, Customer Customer)
+        public async Task<ActionResult> Update(int id, CustomerDto customer)
         {
             try
             {
-                if (id != Customer.Id)
+                if (id != customer.Id)
                     return BadRequest("Customer ID mismatch");
 
                 var CustomerToUpdate = await _customersRep.GetByIdAsync(id);
@@ -109,7 +118,7 @@ namespace LibApp.Controllers.Api
                 if (CustomerToUpdate == null)
                     return NotFound($"Customer with Id = {id} not found");
 
-                await _customersRep.UpdateAsync(Customer);
+                await _customersRep.UpdateAsync(_mapper.Map<CustomerDto, Customer>(customer));
                 return Ok();
             }
             catch (Exception)

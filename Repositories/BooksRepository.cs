@@ -21,16 +21,16 @@ namespace LibApp.Respositories
         public IEnumerable<Book> Get() => _context.Books.Include(b => b.Genre);
         public Book GetById(int id) => _context.Books.Include(b => b.Genre).First(b => b.Id == id);
         public void Add(Book book) => _context.Books.Add(book);
-        public void Delete(int id) => _context.Books.Remove(GetById(id));
+        public void Delete(Book book) => _context.Books.Remove(book);
         public void Update(Book book) => _context.Books.Update(book);
         public void Save() => _context.SaveChanges();
 
         //AsyncedMethods
         public async Task<IEnumerable<Book>> GetAsync() => await _context.Books.Include(b => b.Genre).ToListAsync();
         public async Task<Book> GetByIdAsync(int id) => await _context.Books.Include(b => b.Genre).SingleOrDefaultAsync(b => b.Id == id);
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Book book)
         {
-            _context.Books.Remove(GetById(id));
+            _context.Books.Remove(book);
             await SaveAsync();
         }
         public async Task AddAsync(Book book) => await _context.Books.AddAsync(book);

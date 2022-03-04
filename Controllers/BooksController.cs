@@ -14,12 +14,12 @@ namespace LibApp.Controllers
     public class BooksController : Controller
     {
         private readonly BookRepository _bookRep;
-        private readonly GenreRepository _genresRep;
+        private readonly GenresRepository _genresRep;
 
         public BooksController(ApplicationDbContext context)
         {
             _bookRep = new BookRepository(context);
-            _genresRep = new GenreRepository(context);
+            _genresRep = new GenresRepository(context);
         }
 
         public IActionResult Index()

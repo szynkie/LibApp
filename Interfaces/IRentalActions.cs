@@ -9,7 +9,7 @@ namespace LibApp.Interfaces
         //Methods
         IEnumerable<Rental> Get();
         Rental GetById(int id);
-        void Delete(int id);
+        void Delete(Rental rental);
         void Add(Rental rental);
         void Update(Rental rental);
         void Save();
@@ -17,7 +17,7 @@ namespace LibApp.Interfaces
         //AsyncedMethods
         Task<IEnumerable<Rental>> GetAsync();
         Task<Rental> GetByIdAsync(int id);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Rental rental);
         Task AddAsync(Rental rental);
         Task UpdateAsync(Rental rental);
         Task SaveAsync();

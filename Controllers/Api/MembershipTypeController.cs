@@ -14,28 +14,28 @@ namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController : ControllerBase
+    public class MembershipTypesController : ControllerBase
     {
-        private readonly BookRepository _bookRep;
+        private readonly MembershipTypesRepository _MsTRep;
         private readonly IMapper _mapper;
 
-        public BooksController(ApplicationDbContext context, IMapper mapper)
+        public MembershipTypesController(ApplicationDbContext context, IMapper mapper)
         {
-            _bookRep = new BookRepository(context);
+            _MsTRep = new MembershipTypesRepository(context);
             _mapper = mapper;
         }
 
-        // GET api/books/
+        // GET api/membershipTypes/
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<MembershipType>>> Get()
         {
             try
             {
-                var books = (await _bookRep.GetAsync())
+                var membershipTypes = (await _MsTRep.GetAsync())
                 .ToList()
-                .Select(_mapper.Map<Book, BookDto>);
+                .Select(_mapper.Map<MembershipType, MembershipTypeDto>);
 
-                return Ok(books);
+                return Ok(membershipTypes);
             }
             catch (Exception)
             {
@@ -44,16 +44,16 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // GET api/books/{id}
+        // GET api/membershipTypes/{id}
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Book>> GetBookById(int id)
+        public async Task<ActionResult<MembershipType>> GetById(int id)
         {
             try
             {
-                var book = await _bookRep.GetByIdAsync(id);
-                if (book == null) return NotFound();
+                var membershipType = await _MsTRep.GetByIdAsync(id);
+                if (membershipType == null) return NotFound();
 
-                return Ok(_mapper.Map<Book, BookDto>(book));
+                return Ok(_mapper.Map<MembershipType, MembershipTypeDto>(membershipType));
             }
             catch (Exception)
             {
@@ -62,37 +62,37 @@ namespace LibApp.Controllers.Api
             }
         }
 
-        // Delete api/books/{id}
+        // Delete api/membershipTypes/{id}
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var bookToDelete = await _bookRep.GetByIdAsync(id);
+                var membershipTypeToDelete = await _MsTRep.GetByIdAsync(id);
 
-                if (bookToDelete == null)
-                    return NotFound($"Book with Id = {id} not found");
+                if (membershipTypeToDelete == null)
+                    return NotFound($"MembershipType with Id = {id} not found");
 
-                await _bookRep.DeleteAsync(bookToDelete);
+                await _MsTRep.DeleteAsync(membershipTypeToDelete);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error while deleting record");
+                    $"Error while deleting record {e.Message}");
             }
         }
 
         // Post api/books/
         [HttpPost]
-        public async Task<ActionResult> Add(BookDto book)
+        public async Task<ActionResult> Add(MembershipTypeDto membershipType)
         {
             try
             {
-                if (book == null)
+                if (membershipType == null)
                     return BadRequest();
 
-                await _bookRep.AddAsync(_mapper.Map<BookDto, Book>(book));
+                await _MsTRep.AddAsync(_mapper.Map<MembershipTypeDto, MembershipType>(membershipType));
 
                 return Ok();
             }
@@ -105,19 +105,19 @@ namespace LibApp.Controllers.Api
 
         // Put api/books/{id}
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> Update(int id, BookDto book)
+        public async Task<ActionResult> Update(int id, MembershipTypeDto membershipType)
         {
             try
             {
-                if (id != book.Id)
+                if (id != membershipType.Id)
                     return BadRequest("Book ID mismatch");
 
-                var bookToUpdate = await _bookRep.GetByIdAsync(id);
+                var bookToUpdate = await _MsTRep.GetByIdAsync(id);
 
                 if (bookToUpdate == null)
                     return NotFound($"Book with Id = {id} not found");
 
-                await _bookRep.UpdateAsync(_mapper.Map<BookDto, Book>(book));
+                await _MsTRep.UpdateAsync(_mapper.Map<MembershipTypeDto, MembershipType>(membershipType));
                 return Ok();
             }
             catch (Exception)

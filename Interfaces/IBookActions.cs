@@ -9,7 +9,7 @@ namespace LibApp.Interfaces
     {
         IEnumerable<Book> Get();
         Book GetById(int id);
-        void Delete(int id);
+        void Delete(Book book);
         void Add(Book book);
         void Update(Book book);
         void Save();
@@ -17,7 +17,7 @@ namespace LibApp.Interfaces
         //AsyncedMethods
         Task<IEnumerable<Book>> GetAsync();
         Task<Book> GetByIdAsync(int id);
-        Task DeleteAsync(int id);
+        Task DeleteAsync(Book book);
         Task AddAsync(Book book);
         Task UpdateAsync(Book book);
         Task SaveAsync();

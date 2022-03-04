@@ -14,12 +14,12 @@ namespace LibApp.Controllers
     public class CustomersController : Controller
     {
         private readonly CustomersRepository _customersRepo;
-        private readonly MembershipTypeRepository _MtSRepo;
+        private readonly MembershipTypesRepository _MtSRepo;
 
         public CustomersController(ApplicationDbContext context)
         {
             _customersRepo = new CustomersRepository(context);
-            _MtSRepo = new MembershipTypeRepository(context);
+            _MtSRepo = new MembershipTypesRepository(context);
         }
 
         public ViewResult Index() => View();
