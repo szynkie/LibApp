@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Owner, StoreManager")]
     [ApiController]
     public class RentalsController : ControllerBase
     {

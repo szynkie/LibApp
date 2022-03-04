@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class GenresController : ControllerBase
     {
@@ -65,6 +67,7 @@ namespace LibApp.Controllers.Api
 
         // Delete api/Genres/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Owner, StoreManager")]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -86,6 +89,7 @@ namespace LibApp.Controllers.Api
 
         // Post api/Genres/
         [HttpPost]
+        [Authorize(Roles = "Owner, StoreManager")]
         public async Task<ActionResult> Add(GenreDto genre)
         {
             try
@@ -106,6 +110,7 @@ namespace LibApp.Controllers.Api
 
         // Put api/Genres/{id}
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Owner, StoreManager")]
         public async Task<ActionResult> Update(int id, GenreDto genre)
         {
             try

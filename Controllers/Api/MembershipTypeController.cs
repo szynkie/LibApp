@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Owner, StoreManager")]
     [ApiController]
     public class MembershipTypesController : ControllerBase
     {
@@ -64,6 +66,7 @@ namespace LibApp.Controllers.Api
 
         // Delete api/membershipTypes/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -85,6 +88,7 @@ namespace LibApp.Controllers.Api
 
         // Post api/books/
         [HttpPost]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Add(MembershipTypeDto membershipType)
         {
             try
@@ -105,6 +109,7 @@ namespace LibApp.Controllers.Api
 
         // Put api/books/{id}
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Update(int id, MembershipTypeDto membershipType)
         {
             try

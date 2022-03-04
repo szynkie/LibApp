@@ -57,30 +57,38 @@
             var table = $("#customers").DataTable();
             $("#customers").on("click", ".js-delete", function () {
                 var button = $(this);
-                bootbox.confirm({
-                    message: "Confirm customer deletion?",
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
+                if (this.User.IsInRole("Owner")) {
+                    bootbox.confirm({
+                        message: "Confirm customer deletion?",
+                        buttons: {
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
                         },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/customers/" + button.attr("data-customer-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
                         }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            $.ajax({
-                                url: "/api/customers/" + button.attr("data-customer-id"),
-                                method: "DELETE",
-                                success: function () {
-                                    table.row(button.parents("tr")).remove().draw();
-                                }
-                            });
-                        }
-                    }
-                });
+                    });
+                }
+                else {
+                    bootbox.alert({
+                        message: "This Actions is not allowed",
+                        size: 'small'
+                    });
+                }
             });
         });
     </script>

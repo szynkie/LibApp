@@ -8,9 +8,11 @@ using LibApp.ViewModels;
 using LibApp.Respositories;
 using LibApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly BookRepository _bookRep;
@@ -37,6 +39,7 @@ namespace LibApp.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Owner, StoreManager")]
         public IActionResult Edit(int id)
         {
             var book = _bookRep.GetById(id);
@@ -54,6 +57,7 @@ namespace LibApp.Controllers
             return View("BookForm", viewModel);
         }
 
+        [Authorize(Roles = "Owner, StoreManager")]
         public IActionResult New()
         {
             var genres = _genresRep.Get().ToList();
@@ -66,6 +70,20 @@ namespace LibApp.Controllers
             return View("BookForm", viewModel);
         }
 
+        [Authorize(Roles = "Owner, StoreManager")]
+        public IActionResult Delete(int id)
+        {
+            var book = _bookRep.GetById(id);
+
+            if (book == null)
+                return View();
+
+            _bookRep.Delete(book);
+
+            return RedirectToAction("Index", "Books");
+        }
+
+        [Authorize(Roles = "Owner, StoreManager")]
         [HttpPost]
         public IActionResult Save(Book book)
         {

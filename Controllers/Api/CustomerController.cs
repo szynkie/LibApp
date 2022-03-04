@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers.Api
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Owner, StoreManager")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -65,6 +67,7 @@ namespace LibApp.Controllers.Api
 
         // Delete api/Customers/{id}
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Delete(int id)
         {
             try
@@ -86,6 +89,7 @@ namespace LibApp.Controllers.Api
 
         // Post api/Customers/
         [HttpPost]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Add(CustomerDto customer)
         {
             try
@@ -106,6 +110,7 @@ namespace LibApp.Controllers.Api
 
         // Put api/Customers/{id}
         [HttpPut("{id:int}")]
+        [Authorize(Roles = "Owner")]
         public async Task<ActionResult> Update(int id, CustomerDto customer)
         {
             try

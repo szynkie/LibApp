@@ -14,9 +14,9 @@
     }
 </ul>
 
-@* @if (this.User.IsInRole("Owner"))
-    { *@
-<p>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
-</p>
-@* } *@
+@if (this.User.IsInRole("Owner"))
+{
+    <p>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+    </p>
+}

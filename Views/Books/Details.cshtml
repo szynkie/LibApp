@@ -13,3 +13,14 @@
     <li>Date Added: @Model.DateAdded.ToShortDateString()</li>
     <li>Numbers in Stock: @Model.NumberInStock</li>
 </ul>
+
+@if (this.User.IsInRole("Owner") || this.User.IsInRole("StoreManager"))
+{
+    <p>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+    </p>
+
+    <p>
+        <a class="btn btn-primary" asp-action="Delete" asp-route-id=@Model.Id>Delete</a>
+    </p>
+}

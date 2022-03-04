@@ -8,9 +8,11 @@ using LibApp.ViewModels;
 using LibApp.Respositories;
 using LibApp.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibApp.Controllers
 {
+    [Authorize(Roles = "Owner, StoreManager")]
     public class CustomersController : Controller
     {
         private readonly CustomersRepository _customersRepo;
@@ -36,6 +38,7 @@ namespace LibApp.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "Owner")]
         public IActionResult New()
         {
             var membershipTypes = _MtSRepo.Get();
@@ -47,6 +50,7 @@ namespace LibApp.Controllers
             return View("CustomerForm", viewModel);
         }
 
+        [Authorize(Roles = "Owner")]
         public IActionResult Edit(int id)
         {
             var customer = _customersRepo.GetById(id);
@@ -63,6 +67,7 @@ namespace LibApp.Controllers
             return View("CustomerForm", viewModel);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Save(Customer customer)
