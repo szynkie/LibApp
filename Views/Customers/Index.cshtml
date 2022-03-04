@@ -1,5 +1,3 @@
-@model IEnumerable<LibApp.Models.Customer>
-
 @{
     ViewBag.Title = "Customers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,24 +5,91 @@
 
 <h2>Customers</h2>
 
-@if (!Model.Any())
+<p>
+    <a class="btn btn-primary" asp-action="New">New Customer</a>
+</p>
+
+
+<table id="customers" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+@section Scripts
 {
-    <p>There are no customers yet.</p>
-}
-else
-{
-    <table class="table table-hover">
-        <thead>
-        <tr><th colspan="2">Customer</th></tr>
-        </thead>
-        <tbody>
-        @foreach (var customer in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => customer.Name)</td>
-                <td><a asp-action="Details" asp-route-id="@customer.Id">Details</a></td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <script>
+        $(document).ready(function () {
+            $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers/",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='customers/details/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn btn-secondary js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            var table = $("#customers").DataTable();
+            $("#customers").on("click", ".js-delete", function () {
+                var button = $(this);
+                if (this.User.IsInRole("Owner")) {
+                    bootbox.confirm({
+                        message: "Confirm customer deletion?",
+                        buttons: {
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/customers/" + button.attr("data-customer-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+                else {
+                    bootbox.alert({
+                        message: "This Actions is not allowed",
+                        size: 'small'
+                    });
+                }
+            });
+        });
+    </script>
 }
